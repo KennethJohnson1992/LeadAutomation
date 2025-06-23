@@ -20,6 +20,20 @@ EMAIL_CONFIG = {
     'use_tls': os.getenv('USE_TLS', 'True').lower() == 'true'  # Outlook requires TLS
 }
 
+def get_email_address(company_info):
+    """
+    Get email address from company info, checking multiple possible field names.
+    """
+    # Check different possible email field names
+    email_fields = ['e-mail address', 'email', 'e-mail', 'email_address']
+    
+    for field in email_fields:
+        email = company_info.get(field, '')
+        if email and '@' in email:
+            return email
+    
+    return ''
+
 def send_email(company_info, message, subject=None):
     """
     Send email to a company using the configured email settings.
@@ -30,9 +44,9 @@ def send_email(company_info, message, subject=None):
     :return: True if successful, False otherwise
     """
     try:
-        # Validate email address
-        recipient_email = company_info.get('e-mail address', '')
-        if not recipient_email or '@' not in recipient_email:
+        # Validate email address using the new function
+        recipient_email = get_email_address(company_info)
+        if not recipient_email:
             print(f"Skipping {company_info.get('name', 'Unknown')} - no valid email address")
             return False
         

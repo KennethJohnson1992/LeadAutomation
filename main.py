@@ -15,6 +15,20 @@ WORKSHEETS = [
 EMAIL_DELAY = 2  # Delay between emails in seconds
 MAX_EMAILS_PER_RUN = 10  # Limit emails per run for testing
 
+def get_email_address(company_info):
+    """
+    Get email address from company info, checking multiple possible field names.
+    """
+    # Check different possible email field names
+    email_fields = ['e-mail address', 'email', 'e-mail', 'email_address']
+    
+    for field in email_fields:
+        email = company_info.get(field, '')
+        if email and '@' in email:
+            return email
+    
+    return ''
+
 def create_email_message(company_info):
     """
     Create a personalized email message for a company.
@@ -92,9 +106,9 @@ def send_campaign_emails(all_data):
                 print(f"\n⚠️  Reached maximum emails per run ({MAX_EMAILS_PER_RUN}). Stopping.")
                 break
                 
-            # Check if company has valid email
-            email = company.get('e-mail address', '')
-            if not email or '@' not in email:
+            # Check if company has valid email using the new function
+            email = get_email_address(company)
+            if not email:
                 print(f"⏭️  Skipping {company.get('name', 'Unknown')} - no valid email")
                 total_skipped += 1
                 continue

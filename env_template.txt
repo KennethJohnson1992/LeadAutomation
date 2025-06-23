@@ -1,0 +1,14 @@
+# Copy this file to .env and update with your actual values
+
+# Email Configuration for Outlook
+SENDER_EMAIL=your-outlook-email@outlook.com
+SENDER_PASSWORD=your-outlook-password
+SENDER_NAME=Your Company Name
+
+# SMTP Configuration (Outlook defaults)
+SMTP_SERVER=smtp-mail.outlook.com
+SMTP_PORT=587
+USE_TLS=True
+
+# Google Sheets Configuration (optional)
+GOOGLE_SERVICE_ACCOUNT=service_account.json 
